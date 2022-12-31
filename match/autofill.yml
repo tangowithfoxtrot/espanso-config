@@ -5,7 +5,7 @@ global_vars:
       echo: http://192.168.1.127:3399
 
 matches:
-  - trigger: ":pass"
+  - trigger: ":pass" # fill a specific item
     replace: "{{output}}"
     vars:
       - name: output
@@ -14,7 +14,7 @@ matches:
           shell: zsh
           cmd: |-
             echo $(curl -sX 'GET' '{{api_host}}/object/item/5310c27b-e7d7-4721-bdc1-ad79015d73ae' | jq -r '.data.fields[3]? | select(.value) | .value')
-  - regex: "(u|U)\\((?P<item>.*)\\)"
+  - regex: "(u|U)\\((?P<item>.*)\\)" # fill a username with u(item_name) or U(item_name)
     replace: "{{bw_usename}}"
     vars:
       - name: bw_usename
@@ -23,7 +23,7 @@ matches:
           shell: zsh
           cmd: |-
             echo $(curl -sX 'GET' '{{api_host}}/list/object/items' | jq -r '.data.data[] | select(.name | ascii_downcase == "{{item}}") | .login.username')
-  - regex: "(p|P)\\((?P<item>.*)\\)"
+  - regex: "(p|P)\\((?P<item>.*)\\)" # fill a password with p(item_name) or P(item_name)
     replace: "{{bw_pass}}"
     vars:
       - name: bw_pass
@@ -32,7 +32,7 @@ matches:
           shell: zsh
           cmd: |-
             echo $(curl -sX 'GET' '{{api_host}}/list/object/items' | jq -r '.data.data[] | select(.name | ascii_downcase == "{{item}}") | .login.password')
-  - regex: "(t|T)\\((?P<item>.*)\\)"
+  - regex: "(t|T)\\((?P<item>.*)\\)" # fill a totp with t(item_name) or T(item_name)
     replace: "{{bw_totp}}"
     vars:
       - name: id
